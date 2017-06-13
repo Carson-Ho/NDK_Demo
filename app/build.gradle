@@ -1,0 +1,36 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "25.0.0"
+
+    defaultConfig {
+        applicationId "scut.carson_ho.ndk_demo"
+        minSdkVersion 19
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+
+        ndk {
+            // 模块名称，即编译的.so文件名
+            moduleName "hello_jni"
+            // 使用STL标准库(默认情况下JNI中是无法使用STL标准库的)
+            stl "stlport_static"
+            // "log" 表示加入Android的调试日志，只要在导入#include <android/log.h>
+            // 就可使用__android_log_print方法打印日志到logcat中
+            ldLibs "log"
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:23.4.0'
+}
